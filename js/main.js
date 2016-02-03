@@ -84,11 +84,21 @@ var pickCell = function() {
   while (board[randomIndex] !== 0);
   board[randomIndex] = randomType();
   var disappear = $("#cell" + randomIndex);
-  if (randomType > 1) {
-    setTimeout(function() {
-      board[randomIndex] = 0;
-    }, 1000);
-  };
+    if (randomType > 1) {
+      setTimeout(function() {
+        board[randomIndex] = 0;
+      }, 1000);
+    };
+  // var fade = $("#cell" + randomIndex);
+  //   if (randomType > 1) {
+  //     setTimeout(function() {
+  //       fade.css({opacity: 1}).animate({opacity: 0.0, visibility: "visible"}, 2000);
+  //       board[randomIndex] = 0;
+  //       setTimeout(function() {
+  //         fade.css({opacity: 1});
+  //       }, 2010);
+  //     }, 1000);
+  //   };
 };
 
 
@@ -96,7 +106,7 @@ var pickCell = function() {
 var click = function(evt) {
   clickValue = parseInt(this.id.substr(4));
   if (board[clickValue] === 1) {
-    score += 10;
+    score += 100;
   } else if (board[clickValue] === 2) {
     freezeEffect();
   } else if (board[clickValue] === 3) {
@@ -136,20 +146,26 @@ var tick = function() {
   }
   printState();
 };
-var tickCell = function() {
-  pickCell();
-  render();
-};
+// var tickCell = function() {
+//   pickCell();
+//   render();
+// };
+
 var startGame = function() {
   clearInterval(timer);
   clearInterval(timer2);
-  console.log("STARTING GAME");
   tick();
   timer = setInterval(tick, 10);
-  tickCell();
-  timer2 = setInterval(tickCell, 700);
+  var counter = 800;
+  var tickCell = function() {
+    pickCell();
+    render();
+    clearInterval(timer2);
+    counter *= 0.99;
+    timer2 = setInterval(tickCell, counter);
+  }
+  var timer2 = setInterval(tickCell, counter);
 };
-
 var start = document.getElementById("startgame");
   setTimeout(function() {
     start.onclick = startGame();
