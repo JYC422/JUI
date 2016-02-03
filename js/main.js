@@ -2,15 +2,14 @@ console.log("J U I loaded");
 
 var timer;
 var timer2;
+var counter;
 var cell;
 var curCount = 0;
 var gameLost = false;
 var multiUp = 0;
 var total = 10;
 var score = 0;
-// var totalScore = function() {
-//     (1 + (multiUp * 0.1)) * score;
-// };
+var points = 100;
 
 var board = [ 0,0,0,0,0,0,0,0,0,0,0,0,
               0,0,0,0,0,0,0,0,0,0,0,0,
@@ -32,16 +31,19 @@ var cellTypes = [
 
 // EFFECTS
 var freezeEffect = function() {
-
+  counter = counter * 1.20;
 };
 var multiEffect = function() {
   multiUp++;
+  points = Math.floor((1 + (multiUp * 0.1)) * points);
 };
 var maxEffect = function() {
   total++;
 };
 var superEffect = function() {
-
+  for (var i = 0; i < board.length; i++) {
+    board[i] = 0;
+  };
 };
 
 // LOSING
@@ -106,7 +108,7 @@ var pickCell = function() {
 var click = function(evt) {
   clickValue = parseInt(this.id.substr(4));
   if (board[clickValue] === 1) {
-    score += 100;
+    score += points;
   } else if (board[clickValue] === 2) {
     freezeEffect();
   } else if (board[clickValue] === 3) {
@@ -146,30 +148,30 @@ var tick = function() {
   }
   printState();
 };
-// var tickCell = function() {
-//   pickCell();
-//   render();
-// };
-
-var startGame = function() {
-  clearInterval(timer);
+var tickCell = function() {
+  pickCell();
+  render();
   clearInterval(timer2);
-  tick();
+  counter *= 0.98;
+  timer2 = setInterval(tickCell, counter);
+}
+var startGame = function() {
+  curCount = 0;
+  gameLost = false;
+  multiUp = 0;
+  total = 10;
+  score = 0;
+  points = 100;
+  counter = 800;
   timer = setInterval(tick, 10);
-  var counter = 800;
-  var tickCell = function() {
-    pickCell();
-    render();
-    clearInterval(timer2);
-    counter *= 0.99;
-    timer2 = setInterval(tickCell, counter);
-  }
-  var timer2 = setInterval(tickCell, counter);
+  timer2 = setInterval(tickCell, counter);
 };
-var start = document.getElementById("startgame");
-  setTimeout(function() {
-    start.onclick = startGame();
-  }, 1000);
+
+// START THE GAME DELAYED
+
+setTimeout(function() {
+    startGame();
+}, 1000);
 
 
 // STUFF
