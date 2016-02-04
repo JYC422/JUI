@@ -29,7 +29,7 @@ span {
 }
 
 .scoremax {
-  width: 800px;
+  width: 59%;
   text-align: center;
   margin: auto;
   margin-top: 0;
@@ -58,8 +58,9 @@ span {
 }
 
 .board {
-  width: 800px;
-  height: 600px;
+  min-width: 600px;
+  width: 60%;
+  height: 60%;
   margin: 0 auto;
   border: 3px solid black;
   border-radius: 5px;
@@ -86,11 +87,37 @@ text-decoration: none;
   display: none;
 }
 
+.three {
+  display: none;
+}
+
 button {
   font-size: 10px;
   text-align: center;
 }
 
+#content3img {
+  text-align: center;
+  border: 3px solid black;
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+}
+
+#htp {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+#content3btns {
+  text-align: left;
+}
+
 #idxbtns {
   text-align: center;
+}
+
+#howhead {
+  font-size: 60px;
 }

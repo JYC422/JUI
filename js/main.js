@@ -24,13 +24,13 @@ var board = [ 0,0,0,0,0,0,0,0,0,0,0,0,
 var cellTypes = [
   {name: "empty", type: 0, color: "white"},
   {name: "normal", type: 1, color: "black"},
-  {name: "freeze", type: 2, color: "blue"}, // temporarily stops black boxes from spawning
-  {name: "multi", type: 3, color: "green"}, // score multiplier x1.1
-  {name: "max", type: 4, color: "yellow"},  // adds 1 to max
-  {name: "super", type: 5, color: "red"}, // clears the board
+  {name: "freeze", type: 2, color: "blue"},
+  {name: "multi", type: 3, color: "green"},
+  {name: "max", type: 4, color: "yellow"},
+  {name: "super", type: 5, color: "red"},
 ];
 
-// EFFECTS
+// EFFECTS -------------------------------------------------------------
 var freezeEffect = function() {
   clearInterval(timer2);
   setTimeout(function() {
@@ -46,11 +46,11 @@ var maxEffect = function() {
 };
 var superEffect = function() {
   for (var i = 0; i < board.length; i++) {
-    board[i] = 0;
+    if (board[i] < 2) board[i] = 0;
   };
 };
 
-// LOSING
+// LOSING & PRINTSTATE ------------------------------------------------
 var hasLost = function() {
   var count = 0;
   for (var i = 0; i < board.length; i++) {
@@ -67,7 +67,7 @@ var printState = function() {
 };
 
 
-// GAMEBOARD
+// PICKCELL & FADE ----------------------------------------------------
 var pickCell = function() {
   var randomIndex;
   var randomType = function() {
@@ -89,49 +89,49 @@ var pickCell = function() {
   }
   while (board[randomIndex] !== 0);
   board[randomIndex] = randomType();
-  var disappear = $("#cell" + randomIndex);
-    if (randomType > 1) {
+
+  var $fade = $("#cell" + randomIndex);
+  if (randomType > 1) {
+    setTimeout(function() {
+      $fade.animate({backgroundColor: "white"}, 1200);
       setTimeout(function() {
         board[randomIndex] = 0;
-      }, 1000);
-    };
-  // var fade = $("#cell" + randomIndex);
-  //   if (randomType > 1) {
-  //     setTimeout(function() {
-  //       fade.css({opacity: 1}).animate({opacity: 0.0, visibility: "visible"}, 2000);
-  //       board[randomIndex] = 0;
-  //       setTimeout(function() {
-  //         fade.css({opacity: 1});
-  //       }, 2010);
-  //     }, 1000);
-  //   };
+      }, 1180);
+    }, 1000);
+  };
 };
 
 
-// MOVE
+// CLICK MOVE ---------------------------------------------------------
 var click = function(evt) {
   clickValue = parseInt(this.id.substr(4));
   if (board[clickValue] === 1) {
     score += points;
   } else if (board[clickValue] === 2) {
     freezeEffect();
+    // this.hide("explode", 200);
+    // this.show("puff", 150);
   } else if (board[clickValue] === 3) {
     multiEffect();
+    // this.hide("explode", 200);
+    // this.show("puff", 150);
   } else if (board[clickValue] === 4) {
     maxEffect();
+    // this.hide("explode", 200);
+    // this.show("puff", 150);
   } else if (board[clickValue] === 5) {
     superEffect();
+    // this.hide("explode", 200);
+    // this.show("puff", 150);
   }
   board[clickValue] = 0;
   render();
 };
 
 
-// RENDER
+// RENDER -------------------------------------------------------------
 var render = function() {
-  if (gameLost === false) {
-    renderBoard();
-  };
+  if (gameLost === false) renderBoard();
   function renderBoard() {
     board.forEach(function(cell, idx) {
       var el = $('#cell' + idx);
@@ -141,7 +141,7 @@ var render = function() {
 };
 
 
-// START
+// TICKS --------------------------------------------------------------
 var tick = function() {
   printState();
   if (hasLost()) {
@@ -165,6 +165,9 @@ var tickCell = function() {
   counter *= 0.99;
   timer2 = setInterval(tickCell, counter);
 };
+
+
+// STARTGAME ----------------------------------------------------------
 var startGame = function() {
   for (var i = 0; i < board.length; i++) {
     board[i] = 0;
@@ -186,10 +189,11 @@ var startGame = function() {
 };
 
 
-// BUTTONS
+// BUTTONS ------------------------------------------------------------
 $("#startgame").on('click', function() {
   $(".one").css("display", "none");
   $(".two").css("display","inline");
+  $(".three").css("display","none");
   startGame();
 });
 $("#restart").on('click', function() {
@@ -198,10 +202,26 @@ $("#restart").on('click', function() {
 $("#mainmenu").on('click', function() {
   $(".one").css("display", "inline");
   $(".two").css("display","none");
+  $(".three").css("display","none");
+});
+$("#howtoplay").on('click', function() {
+  $(".one").css("display", "none");
+  $(".two").css("display","none");
+  $(".three").css("display","inline");
+});
+$("#mainmenu2").on('click', function() {
+  $(".one").css("display", "inline");
+  $(".two").css("display","none");
+  $(".three").css("display","none");
+});
+$("#startgame2").on('click', function() {
+  $(".one").css("display", "none");
+  $(".two").css("display","inline");
+  $(".three").css("display","none");
+  startGame();
 });
 
-
-// STUFF
+// EVENTLISTENERS -----------------------------------------------------
 document.addEventListener("DOMContentLoaded", function(evt) {
 
   var cellEls = document.querySelectorAll("td");
@@ -308,4 +328,6 @@ document.addEventListener("DOMContentLoaded", function(evt) {
   cellEls[93].addEventListener("click", click);
   cellEls[94].addEventListener("click", click);
   cellEls[95].addEventListener("click", click);
+
+  // cellEls[i].addEventListener("touchstart", click);
 });
