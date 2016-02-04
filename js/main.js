@@ -22,13 +22,29 @@ var board = [ 0,0,0,0,0,0,0,0,0,0,0,0,
               0,0,0,0,0,0,0,0,0,0,0,0];
 
 var cellTypes = [
-  {name: "empty", type: 0, color: "white"},
-  {name: "normal", type: 1, color: "black"},
-  {name: "freeze", type: 2, color: "blue"},
-  {name: "multi", type: 3, color: "green"},
-  {name: "max", type: 4, color: "yellow"},
-  {name: "super", type: 5, color: "red"},
+  {name: "empty",  color: "white"},
+  {name: "normal", color: "black"},
+  {name: "freeze", color: "blue"},
+  {name: "multi",  color: "green"},
+  {name: "max",    color: "yellow"},
+  {name: "super",  color: "red"}
 ];
+
+var WHITE  = 0,
+    BLACK  = 1,
+    BLUE   = 2,
+    GREEN  = 3,
+    YELLOW = 4,
+    RED    = 5;
+
+var randomType = function() {
+  var randomNum = Math.floor((Math.random() * 100) + 1);
+  if      (randomNum < 88) return BLACK;  // 88%
+  else if (randomNum < 91) return BLUE;   // 3%
+  else if (randomNum < 94) return GREEN;  // 3%
+  else if (randomNum < 97) return YELLOW; // 3%
+  else                     return RED;    // 3%
+};
 
 // EFFECTS -------------------------------------------------------------
 var freezeEffect = function() {
@@ -70,28 +86,16 @@ var printState = function() {
 // PICKCELL & FADE ----------------------------------------------------
 var pickCell = function() {
   var randomIndex;
-  var randomType = function() {
-    var randomNum = Math.floor((Math.random() * 100) + 1);
-    if (randomNum < 88) {
-      return randomType = 1;
-    } else if (randomNum < 91) {
-      return randomType = 2;
-    } else if (randomNum < 94) {
-      return randomType = 3;
-    } else if (randomNum < 97) {
-      return randomType = 4;
-    } else {
-      return randomType = 5;
-    };
-  };
+
   do {
     randomIndex = Math.floor(Math.random() * board.length);
   }
   while (board[randomIndex] !== 0);
+
   board[randomIndex] = randomType();
 
   var $fade = $("#cell" + randomIndex);
-  if (randomType > 1) {
+  if (board[randomIndex] > BLACK) {
     setTimeout(function() {
       $fade.animate({backgroundColor: "white"}, 1200);
       setTimeout(function() {
@@ -104,6 +108,7 @@ var pickCell = function() {
 
 // CLICK MOVE ---------------------------------------------------------
 var click = function(evt) {
+  $(this).stop();
   clickValue = parseInt(this.id.substr(4));
   if (board[clickValue] === 1) {
     score += points;
@@ -140,7 +145,6 @@ var render = function() {
   };
 };
 
-
 // TICKS --------------------------------------------------------------
 var tick = function() {
   printState();
@@ -158,6 +162,7 @@ var tick = function() {
   };
   printState();
 };
+
 var tickCell = function() {
   pickCell();
   render();
