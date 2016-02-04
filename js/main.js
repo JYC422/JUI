@@ -24,7 +24,7 @@ var board = [ 0,0,0,0,0,0,0,0,0,0,0,0,
 var cellTypes = [
   {name: "empty", type: 0, color: "white"},
   {name: "normal", type: 1, color: "black"},
-  {name: "freeze", type: 2, color: "blue"}, // increases interval temporarily
+  {name: "freeze", type: 2, color: "blue"}, // temporarily stops black boxes from spawning
   {name: "multi", type: 3, color: "green"}, // score multiplier x1.1
   {name: "max", type: 4, color: "yellow"},  // adds 1 to max
   {name: "super", type: 5, color: "red"}, // clears the board
@@ -32,7 +32,10 @@ var cellTypes = [
 
 // EFFECTS
 var freezeEffect = function() {
-  counter = counter * 1.20;
+  clearInterval(timer2);
+  setTimeout(function() {
+    timer2 = setInterval(tickCell, counter);
+  }, 2000);
 };
 var multiEffect = function() {
   multiUp++;
@@ -159,7 +162,7 @@ var tickCell = function() {
   pickCell();
   render();
   clearInterval(timer2);
-  counter *= 0.98;
+  counter *= 0.99;
   timer2 = setInterval(tickCell, counter);
 };
 var startGame = function() {

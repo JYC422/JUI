@@ -5,7 +5,7 @@
 
 **How it Works:** Once the game begins, random boxes will begin to appear. Try and click on as many boxes as you can, and make sure you don't exceed the maximum. As you advance, the boxes will appear at an increasing rate. Look out for powerups that can give you specific advantages, but also watch out for boxes that can put you at a disadvantage. See the "How To Play" section to learn more about specific boxes.
 
-**How to Lose:** Run out of time.  
+**How to Lose:** Exceed the maximum number of boxes allowed.  
 
 **Technologies:**  
 - HTML  
