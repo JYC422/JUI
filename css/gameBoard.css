@@ -38,12 +38,21 @@ span {
 
 .scores {
   float: left;
+  width: 34%;
   text-align: left;
   font-family: flaphead;
 }
 
+.lose {
+  float: left;
+  width: 33%;
+  font-family: flaphead;
+  opacity: 0;
+}
+
 .maxes {
-  float: right;
+  float: left;
+  width: 33%;
   text-align: right;
   font-family: flaphead;
 }
@@ -59,4 +68,29 @@ span {
 .board td {
   border: 3px solid black;
   border-radius: 5px;
+}
+
+#mainmenu > a {
+  text-decoration: none;
+}
+
+#restart > a {
+text-decoration: none;
+}
+
+.one {
+  display: inline;
+}
+
+.two {
+  display: none;
+}
+
+button {
+  font-size: 10px;
+  text-align: center;
+}
+
+#idxbtns {
+  text-align: center;
 }

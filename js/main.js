@@ -2,6 +2,7 @@ console.log("J U I loaded");
 
 var timer;
 var timer2;
+var timer3;
 var counter;
 var cell;
 var curCount = 0;
@@ -144,8 +145,14 @@ var tick = function() {
     clearInterval(timer);
     clearInterval(timer2);
     gameLost = true;
-    console.log("YOU LOSE!");
-  }
+    var lose = function() {
+      $(".lose").css({opacity:1});
+      setTimeout(function() {
+        $(".lose").css({opacity:0});
+      }, 400);
+    };
+    timer3 = setInterval(lose, 800);
+  };
   printState();
 };
 var tickCell = function() {
@@ -154,8 +161,11 @@ var tickCell = function() {
   clearInterval(timer2);
   counter *= 0.98;
   timer2 = setInterval(tickCell, counter);
-}
+};
 var startGame = function() {
+  for (var i = 0; i < board.length; i++) {
+    board[i] = 0;
+  };
   curCount = 0;
   gameLost = false;
   multiUp = 0;
@@ -163,15 +173,29 @@ var startGame = function() {
   score = 0;
   points = 100;
   counter = 800;
+  printState();
+  render();
+  clearInterval(timer3);
+  clearInterval(timer2);
+  clearInterval(timer);
   timer = setInterval(tick, 10);
   timer2 = setInterval(tickCell, counter);
 };
 
-// START THE GAME DELAYED
 
-setTimeout(function() {
-    startGame();
-}, 1000);
+// BUTTONS
+$("#startgame").on('click', function() {
+  $(".one").css("display", "none");
+  $(".two").css("display","inline");
+  startGame();
+});
+$("#restart").on('click', function() {
+  startGame();
+});
+$("#mainmenu").on('click', function() {
+  $(".one").css("display", "inline");
+  $(".two").css("display","none");
+});
 
 
 // STUFF
