@@ -95,6 +95,7 @@ var pickCell = function() {
   board[randomIndex] = randomType();
 
   var $fade = $("#cell" + randomIndex);
+
   if (board[randomIndex] > BLACK) {
     setTimeout(function() {
       $fade.animate({backgroundColor: "white"}, 1200);
@@ -108,23 +109,30 @@ var pickCell = function() {
 
 // CLICK MOVE ---------------------------------------------------------
 var click = function(evt) {
-  $(this).stop();
   clickValue = parseInt(this.id.substr(4));
-  if (board[clickValue] === 1) {
+
+  if (board[clickValue] > BLACK) {
+    $(this).stop()
+           .toggle("explode")
+           .css({backgroundColor: "white"})
+           .fadeIn();
+  }
+
+  if (board[clickValue] === BLACK) {
     score += points;
-  } else if (board[clickValue] === 2) {
+  } else if (board[clickValue] === BLUE) {
     freezeEffect();
     // this.hide("explode", 200);
     // this.show("puff", 150);
-  } else if (board[clickValue] === 3) {
+  } else if (board[clickValue] === GREEN) {
     multiEffect();
     // this.hide("explode", 200);
     // this.show("puff", 150);
-  } else if (board[clickValue] === 4) {
+  } else if (board[clickValue] === YELLOW) {
     maxEffect();
     // this.hide("explode", 200);
     // this.show("puff", 150);
-  } else if (board[clickValue] === 5) {
+  } else if (board[clickValue] === RED) {
     superEffect();
     // this.hide("explode", 200);
     // this.show("puff", 150);
