@@ -12,6 +12,7 @@
 - CSS  
 - Javascript  
 - JQuery  
+- JQuery UI
 
 **Design:** To create a fun, casual game.
 
