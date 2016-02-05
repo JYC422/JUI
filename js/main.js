@@ -86,22 +86,19 @@ var printState = function() {
 // PICKCELL & FADE ----------------------------------------------------
 var pickCell = function() {
   var randomIndex;
-
   do {
     randomIndex = Math.floor(Math.random() * board.length);
   }
   while (board[randomIndex] !== 0);
-
   board[randomIndex] = randomType();
 
   var $fade = $("#cell" + randomIndex);
-
   if (board[randomIndex] > BLACK) {
     setTimeout(function() {
-      $fade.animate({backgroundColor: "white"}, 1200);
+      $fade.animate({backgroundColor: "white"}, 700);
       setTimeout(function() {
         board[randomIndex] = 0;
-      }, 1180);
+      }, 690);
     }, 1000);
   };
 };
@@ -110,33 +107,17 @@ var pickCell = function() {
 // CLICK MOVE ---------------------------------------------------------
 var click = function(evt) {
   clickValue = parseInt(this.id.substr(4));
-
   if (board[clickValue] > BLACK) {
     $(this).stop()
-           .toggle("explode")
+           .toggle("explode", {pieces:16})
            .css({backgroundColor: "white"})
            .fadeIn();
-  }
-
-  if (board[clickValue] === BLACK) {
-    score += points;
-  } else if (board[clickValue] === BLUE) {
-    freezeEffect();
-    // this.hide("explode", 200);
-    // this.show("puff", 150);
-  } else if (board[clickValue] === GREEN) {
-    multiEffect();
-    // this.hide("explode", 200);
-    // this.show("puff", 150);
-  } else if (board[clickValue] === YELLOW) {
-    maxEffect();
-    // this.hide("explode", 200);
-    // this.show("puff", 150);
-  } else if (board[clickValue] === RED) {
-    superEffect();
-    // this.hide("explode", 200);
-    // this.show("puff", 150);
-  }
+  };
+  if      (board[clickValue] === BLACK) score += points;
+  else if (board[clickValue] === BLUE)  freezeEffect();
+  else if (board[clickValue] === GREEN) multiEffect();
+  else if (board[clickValue] === YELLOW) maxEffect();
+  else if (board[clickValue] === RED) superEffect();
   board[clickValue] = 0;
   render();
 };
@@ -152,6 +133,7 @@ var render = function() {
     });
   };
 };
+
 
 // TICKS --------------------------------------------------------------
 var tick = function() {
@@ -233,6 +215,7 @@ $("#startgame2").on('click', function() {
   $(".three").css("display","none");
   startGame();
 });
+
 
 // EVENTLISTENERS -----------------------------------------------------
 document.addEventListener("DOMContentLoaded", function(evt) {
@@ -341,6 +324,4 @@ document.addEventListener("DOMContentLoaded", function(evt) {
   cellEls[93].addEventListener("click", click);
   cellEls[94].addEventListener("click", click);
   cellEls[95].addEventListener("click", click);
-
-  // cellEls[i].addEventListener("touchstart", click);
 });
