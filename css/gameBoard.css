@@ -105,6 +105,11 @@ button {
   letter-spacing: 3px;
   padding: 5px 10px 5px 10px;
   margin-top: 5px;
+  outline: 0;
+}
+
+#mutebtn {
+  text-align: center;
 }
 
 #content3img {
@@ -139,4 +144,17 @@ button {
 td {
   width:  40px;
   height: 40px;
+}
+
+input#un-mute,
+.unmute {
+    display: none;
+}
+
+input#un-mute:checked ~ .unmute {
+    display: initial;
+}
+
+input#un-mute:checked ~ .mute {
+    display: none;
 }

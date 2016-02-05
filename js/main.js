@@ -215,6 +215,11 @@ $("#startgame2").on('click', function() {
   $(".three").css("display","none");
   startGame();
 });
+var audio = document.getElementById("tomb");
+var mute = document.getElementById('mute');
+mute.onclick = function() {
+  audio.muted = !audio.muted;
+};
 
 
 // EVENTLISTENERS -----------------------------------------------------
