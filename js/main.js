@@ -220,6 +220,10 @@ var mute = document.getElementById('mute');
 mute.onclick = function() {
   audio.muted = !audio.muted;
 };
+audio.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
 
 
 // EVENTLISTENERS -----------------------------------------------------
